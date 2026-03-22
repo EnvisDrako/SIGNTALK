@@ -1,0 +1,5 @@
+# Ignore Markdown files created
+*.md
+
+# Ignore the Word document currently in the directory
+SignTalk_Architecture_Review.docx
