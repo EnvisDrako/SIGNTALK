@@ -33,4 +33,27 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         print("Client disconnected from Sign-to-Text WebSocket.")
 
-# Future: include routers for Text-to-Sign and One-Shot DB
+from pydantic import BaseModel
+
+class TextToSignRequest(BaseModel):
+    text: str
+
+@app.post("/api/text-to-sign")
+async def process_text_to_sign(request: TextToSignRequest):
+    """
+    Simulates the NLP (T5) and MongoDB lookup pipeline.
+    Text -> ASL Gloss -> Animation Playlist
+    """
+    mock_gloss = request.text.upper().split()
+    
+    playlist = []
+    for token in mock_gloss:
+        playlist.append({
+            "gloss": token,
+            "animationUrl": f"/assets/animations/{token}.glb",
+            "durationMs": 1500
+        })
+        
+    return {"playlist": playlist}
+
+# Future: include routers for One-Shot DB integration
